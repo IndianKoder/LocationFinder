@@ -19,7 +19,7 @@ public class NearByLocationsController {
 	private final String LOCATION_NAME = "Muthoot";
 
 	@GetMapping("/locateNearbyBranches")
-	public void getNearByLocations(@RequestParam String currentLocation) {
+	public String getNearByLocations(@RequestParam String currentLocation) {
 		try {
 			UriComponents uriComponents = UriComponentsBuilder
 											.newInstance()
@@ -27,7 +27,7 @@ public class NearByLocationsController {
 											.host("atlas.mapmyindia.com")
 											.path("/api/places/nearby/json")
 											.queryParam("keywords", LOCATION_NAME)
-											.queryParam("refLocation", "77.6406251,12.8878475")
+											.queryParam("refLocation", currentLocation)
 											.queryParam("radius", RADIUS)
 											//.queryParam("searchBy", "dist")
 											.build();
@@ -39,10 +39,12 @@ public class NearByLocationsController {
 
 			Response response = client.newCall(request).execute();
 			System.out.println(response.body().string());
+			return response.body().string();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return "Error!! Oops, something happened.";
 	}
 	
 	@GetMapping("/loadmap")

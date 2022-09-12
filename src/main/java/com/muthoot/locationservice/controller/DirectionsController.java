@@ -2,9 +2,9 @@ package com.muthoot.locationservice.controller;
 
 import java.io.IOException;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -12,16 +12,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-@RestController
+@Controller
 public class DirectionsController {
 	
 	private final String REST_KEY = "5cbbe32a47e0e6e6abd994ad81b34573";
 	private final String ROUTE_TYPE = "route_adv";
 	private final String DRIVING_MODE = "biking";
-	private String geoPositions = "77.6406251,12.8878475;77.611257,12.934565";
 	
 	@GetMapping("/directions")
-	public void getDirections(@RequestParam String source,@RequestParam String destination ) {
+	public String getDirections(@RequestParam String source,@RequestParam String destination ) {
+		String geoPositions = source+";"+destination;
 		try {
 			UriComponents uriComponents = UriComponentsBuilder
 											.newInstance()
@@ -39,10 +39,12 @@ public class DirectionsController {
 
 			Response response = client.newCall(request).execute();
 			System.out.println(response.body().string());
+			return response.body().string();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return "Error!! Oops, something happened.";
 		
 	}
 
