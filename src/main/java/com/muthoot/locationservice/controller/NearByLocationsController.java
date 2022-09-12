@@ -16,7 +16,7 @@ import okhttp3.Response;
 @Controller
 public class NearByLocationsController {
 	private final int RADIUS = 10000;
-	private final String LOCATION_NAME = "Muthoot";
+	private final String LOCATION_NAME = "Muthoot Fincorp";
 
 	@GetMapping("/locateNearbyBranches")
 	public String getNearByLocations(@RequestParam String currentLocation) {
